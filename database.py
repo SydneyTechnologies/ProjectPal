@@ -7,3 +7,10 @@ DATABASE_URL = "mysql://root:IVCUMVU5UrJwZHybXrX8@containers-us-west-198.railway
 engine = create_engine(DATABASE_URL)
 localSession = sessionmaker(autoflush=False, autoCommit=False, bind=engine)
 Base = declarative_base()
+
+def get_db():
+    db = localSession()
+    try:
+        yield db
+    finally:
+        db.close()
