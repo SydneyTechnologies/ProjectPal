@@ -34,11 +34,18 @@ class Project(Base):
     owner_id = Column(String, ForeignKey("User.id"))
     owner = relationship("User", back_populates="projects")
     technologies = relationship("Technology", secondary=Project_Technology, back_populates="projects")
-
+    media = relationship("Media", back_populates="project")
     def __repr__(self):
         return f'<Project "{self.id}: {self.title}">'
 
 
+class Media(Base):
+
+    __tablename__ = "Media"
+    id = Column(String, default=getUUID)
+    media_url = Column(String)
+    project_id = Column(String, ForeignKey("Project.id"))
+    project = relationship("Project", back_populates="media")
 
 
 class User(Base):
@@ -46,13 +53,15 @@ class User(Base):
     
     id = Column(String, nullable=False, primary_key=True, default=getUUID)
     username = Column(String, nullable=False, unique=True, index=True)
-    email = Column(String, index=True)
-    full_name = Column(String, nullable=False)
+    email = Column(String, unique=True, index=True)
+    password = Column(String, nullable=False)
+    first_name = Column(String, nullable=False)
+    last_name = Column(String, nullable=False)
     bio = Column(String)
     title = Column(String)
-    github_link = Column(String)
-    twitter_link = Column(String)
-    linkedIn_link = Column(String)
+    github = Column(String)
+    twitter = Column(String)
+    linkedIn = Column(String)
 
     # relationship
     projects = relationship("Project", back_populates="owner")
