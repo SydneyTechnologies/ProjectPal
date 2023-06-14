@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-
 router = APIRouter()
 
 @router.get("/register", tags=["Auth"], summary="Register a new user to Project Pal")
