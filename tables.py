@@ -42,7 +42,7 @@ class Project(Base):
 class Media(Base):
 
     __tablename__ = "Media"
-    id = Column(String, default=getUUID)
+    id = Column(String, default=getUUID, primary_key=True)
     media_url = Column(String)
     project_id = Column(String, ForeignKey("Project.id"))
     project = relationship("Project", back_populates="media")

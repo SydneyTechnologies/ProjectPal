@@ -4,7 +4,7 @@ import tables
 from database import engine
 from endpoints import users
 
-tables.BaseTable.metadata.create_all(bind=engine)
+tables.Base.metadata.create_all(bind=engine)
 
 DESCRIPTION = "Welcome to Project Pal! Showcase projects, create stunning portfolios. Add details, images, demos.  Effortlessly showcase your work. Join Project Pal today!"
 app = FastAPI(title="ProjectPal Api", description=DESCRIPTION)

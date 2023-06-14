@@ -9,6 +9,7 @@ sqlalchemy = "*"
 python-jose = "*"
 bcrypt = "*"
 python-multipart = "*"
+psycopg2 = "*"
 
 [dev-packages]
 

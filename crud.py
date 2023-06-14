@@ -48,7 +48,7 @@ def delete_from_db(dbObject: any, db: Session )-> bool:
                 
 
 
-def add_to_db(dbObject: any, db: Session)->tables.BaseTable:
+def add_to_db(dbObject: any, db: Session)->tables.Base:
     if dbObject:
         db.add(dbObject)
         db.commit()
@@ -57,6 +57,6 @@ def add_to_db(dbObject: any, db: Session)->tables.BaseTable:
 
 
 
-def get_db_objects(object: tables.BaseTable,  db: Session)->list[tables.BaseTable]:
+def get_db_objects(object: tables.Base,  db: Session)->list[tables.Base]:
     results = db.query(object).all()
     return results
