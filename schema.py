@@ -60,6 +60,7 @@ class CreateUser(UserBase):
     password: str
 
 class User(UserBase):
+    password: str
     id: str
 
     # relationships

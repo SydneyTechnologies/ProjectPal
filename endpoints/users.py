@@ -9,34 +9,43 @@ router = APIRouter()
 @router.post("/register", tags=["Auth"], summary="Register a new user to Project Pal")
 def register(userData: CreateUser, db = Depends(get_db)):
     password = userData.password
+    print("Password:", password)
     
     #hash password
     password = utils.hashPassword(password=password)
+    print("Password:", password)
+
     # change password
     userData.password = password
+    print("Password:", password)
+
     #create a new database user 
     try: 
+        print(userData.dict())
         new_user = tables.User(**userData.dict())
         db_user = crud.add_to_db(dbObject=new_user, db=db)
         if db_user is None: raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED, detail="Failed to register user")
         return User.from_orm(db_user)
-    except: 
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Registration Failed")
+    except Exception as error:
+        raise error
         
 
 
-@router.get("/login", tags=["Auth"], summary="Login user to Project Pal")
+@router.post("/login", tags=["Auth"], summary="Login user to Project Pal")
 def login(formData: OAuth2PasswordRequestForm = Depends(OAuth2PasswordRequestForm), db = Depends(get_db)):
     email = formData.username
     password = formData.password
 
     # first we find the user 
-    try:
-        db_user = crud.get_user(email=email, db=db)
-        if db_user is None: raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-        is_password_valid = utils.validatePassword(entry=password, password=db_user.password)
-        if is_password_valid: 
-            return {"access-token": utils.generateAccessToken(email=db_user.email), "token_type": "bearer"}
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect Credentials")
-    except:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Login failed")
+    db_user = crud.get_user(email=email, db=db)
+    print(db_user.password)
+
+    password_bytes = bytes.fromhex("\\"+db_user.password)
+    print(db_user.password)
+    if db_user is None: raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    is_password_valid = utils.validatePassword(entry=password, password=db_user.password)
+    if is_password_valid: 
+        print(is_password_valid)
+        return {"access-token": utils.generateAccessToken(email=db_user.email), "token_type": "bearer"}
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect Credentials")
+

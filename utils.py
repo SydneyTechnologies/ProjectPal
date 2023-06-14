@@ -5,6 +5,9 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt;
 from database import get_db
 import crud
+import binascii
+
+
 
 
 auth_scheme = OAuth2PasswordBearer(tokenUrl="login")
@@ -20,10 +23,15 @@ def hashPassword(password: str):
 
 
 def validatePassword(entry: str, password: str):
+    # hashed_password = binascii.hexlify(password).decode('utf-8')
+    # print(hashed_password)
     encoded_entry = entry.encode("utf-8")
+    print(encoded_entry)
     if bcrypt.checkpw(encoded_entry, password):
+        print(True)
         return True
     else:
+        print(True)
         return False
     
 def generateAccessToken(email: str):
