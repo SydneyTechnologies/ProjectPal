@@ -47,12 +47,9 @@ def get_current_user(token:str = Depends(auth_scheme), db = Depends(get_db)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("email")
-        print(payload)
         if email is None:
             raise credentials_exception
     except JWTError:
-        # email: str = payload.get("email")
-        print(token)
         raise credentials_exception
     user = crud.get_user(email=email, db=db)
     if user is None:

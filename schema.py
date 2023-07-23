@@ -13,8 +13,8 @@ class ProjectBase(BaseModel):
     github_link: str | None = None
     live_link: str | None = None
 
-    class Config():
-        from_attributes =True
+    # class Config():
+    #     from_attributes =True
 
 class CreateProject(ProjectBase):
     owner_id: str
