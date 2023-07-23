@@ -43,6 +43,9 @@ class UserBase(BaseModel):
     twitter: str | None = None
     linkedIn: str | None = None 
 
+    class Config():
+        from_attributes =True
+
 class UpdateUser(BaseModel):
     first_name: str | None = None
     last_name: str | None = None
@@ -67,5 +70,4 @@ class User(UserBase):
     projects: list[Project]
 
     class Config(): 
-        orm_mode = True
         arbitrary_allowed_types = True
