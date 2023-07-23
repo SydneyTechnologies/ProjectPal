@@ -19,7 +19,7 @@ def register(userData: CreateUser, db = Depends(get_db)) -> StatusResponse:
         db_user = crud.add_to_db(dbObject=new_user, db=db)
         if not db_user: 
             raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED, detail="Failed to register user")
-        return StatusResponse(status.HTTP_201_CREATED, "Registration successful")
+        return StatusResponse(status=status.HTTP_201_CREATED, message="Registration successful")
     except Exception as error:
         raise error
         
