@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from schema import CreateUser, User, UserBase
+from schema import CreateUser, UserBase
 from database import get_db
 import crud, utils, tables
 router = APIRouter()
@@ -18,7 +18,7 @@ def register(userData: CreateUser, db = Depends(get_db)):
         db_user = crud.add_to_db(dbObject=new_user, db=db)
         if not db_user: 
             raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED, detail="Failed to register user")
-        return UserBase.from_orm(db_user)
+        return {"status":"Registration Successful"}
     except Exception as error:
         raise error
         
